@@ -2,6 +2,7 @@ import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { JSX, SVGProps } from "react"
 
 export default function Component() {
   return (
@@ -32,7 +33,7 @@ export default function Component() {
   )
 }
 
-function MailIcon(props) {
+function MailIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
