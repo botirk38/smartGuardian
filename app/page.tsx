@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { signup } from "../actions/action";
 import { useFormStatus } from "react-dom";
-import { z } from "zod";
+import { set, z } from "zod";
 import { toast, useToast } from "@/components/ui/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ReloadIcon } from "@radix-ui/react-icons";
+
+import { Button } from "@/components/ui/button";
 
 import {
     Form,
@@ -67,7 +70,7 @@ export default function Home() {
     const [value, setValue] = React.useState(`fn main() {
       println!("Hello, World!");
   }`);
-    const {toast} = useToast();
+    const { toast } = useToast();
 
     const { pending } = useFormStatus();
 
@@ -139,6 +142,9 @@ export default function Home() {
             percentage: 0,
             attacks: [],
         });
+
+    const [loading, setLoading] = React.useState(false);
+    const [contactLoading, setContactLoading] = React.useState(false);
 
     const onChange = React.useCallback(
         (val: React.SetStateAction<string>, viewUpdate: any) => {
@@ -223,6 +229,7 @@ export default function Home() {
     };
 
     const onSubmit = async () => {
+        setLoading(true);
         const response = await fetch("/api/analyze-code", {
             method: "POST",
             headers: {
@@ -241,6 +248,9 @@ export default function Home() {
         //const data: Vulnerabilities = await response.json();
         // setVulnerabilities(data);
         setVulnerabilities(initialSolanaVulnerabilities);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
 
         // console.log("data:", data);
     };
@@ -498,14 +508,27 @@ export default function Home() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-8">
+                                {loading && (
+                                    <div className="flex items-center justify-between space-x-6">
+                                        <div className="flex flex-col items-center space-y-4">
+                                            <Skeleton className="w-[120px] h-[10px] rounded-full" />
+                                            <Skeleton className="w-[120px] h-[10px] rounded-full" />
+                                            <Skeleton className="w-[120px] h-[10px] rounded-full" />
+                                        </div>
+
+                                        <div className="flex flex-col items-center space-y-4">
+                                            <Skeleton className="w-[80px] h-[10px] rounded-full" />
+                                            <Skeleton className="w-[80px] h-[10px] rounded-full" />
+                                            <Skeleton className="w-[80px] h-[10px] rounded-full" />
+                                        </div>
+                                    </div>
+                                )}
                                 {vulnerabilities.attacks.map((item, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center justify-between gap-4"
+                                        className="flex items-center justify-between gap-4 transition-all duration-300 ease-in"
                                     >
-                                        <div className="text-sm">
-                                            {item.name}
-                                        </div>
+                                        <p className="text-sm">{item.name}</p>
                                         <div
                                             className={`w-20 h-3 rounded-full ${getSeverityClass(
                                                 item.severity
@@ -547,13 +570,19 @@ export default function Home() {
                                     id="password"
                                 />
 
-                                <Button
-                                    formAction={signup}
-                                    disabled={pending}
-                                    className="text-white bg-green-800"
-                                >
-                                    Sign Up
-                                </Button>
+                                {pending ? (
+                                    <Button disabled>
+                                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                                        Please wait
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        formAction={signup}
+                                        className="text-white bg-green-800"
+                                    >
+                                        Sign Up
+                                    </Button>
+                                )}
                             </form>
                             <p className="text-xs text-gray-500 dark:text-gray-400">
                                 Sign up to get notified when we launch.
@@ -798,12 +827,21 @@ export default function Home() {
                                 </div>
 
                                 <div className="flex items-start">
-                                    <Button
-                                        className="ml-auto bg-green-800 text-white"
-                                        type="submit"
-                                    >
-                                        Contact us!
-                                    </Button>
+                                    {contactLoading ? (
+                                        <Button
+                                            className="ml-auto bg-green-800 text-white"
+                                            disabled
+                                        >
+                                            Contacting...
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            className="ml-auto bg-green-800 text-white"
+                                            type="submit"
+                                        >
+                                            Contact us!
+                                        </Button>
+                                    )}
                                 </div>
                             </form>
                         </Form>
