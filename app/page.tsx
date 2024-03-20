@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { signup } from "../actions/action";
-import { useFormStatus } from 'react-dom'
-import { z } from "zod"
-import { toast, useToast } from "@/components/ui/use-toast"
+import { useFormStatus } from "react-dom";
+import { z } from "zod";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 import {
     Form,
@@ -18,11 +18,10 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 import Image from "next/image";
 import { JSX, SVGProps, useRef } from "react";
@@ -57,24 +56,20 @@ type Plan = {
     price: number;
 };
 
-
 const contactSchema = z.object({
     firstName: z.string().min(2),
     lastName: z.string().min(2),
     contactEmail: z.string().email(),
     message: z.string().min(5),
-})
-
-
+});
 
 export default function Home() {
     const [value, setValue] = React.useState(`fn main() {
       println!("Hello, World!");
   }`);
+    const {toast} = useToast();
 
     const { pending } = useFormStatus();
-
-
 
     const initialSolanaVulnerabilities: Vulnerabilities = {
         percentage: 60, // Example percentage of contracts potentially vulnerable
@@ -82,32 +77,37 @@ export default function Home() {
             {
                 id: 1,
                 name: "Reentrancy Attacks",
-                description: "Attackers may exploit the call-back functionality of a smart contract to drain funds or cause unexpected behavior.",
-                severity: "high"
+                description:
+                    "Attackers may exploit the call-back functionality of a smart contract to drain funds or cause unexpected behavior.",
+                severity: "high",
             },
             {
                 id: 2,
                 name: "Integer Overflow and Underflow",
-                description: "Improper arithmetic operation handling leading to overflow or underflow, affecting the contract's logic.",
-                severity: "low"
+                description:
+                    "Improper arithmetic operation handling leading to overflow or underflow, affecting the contract's logic.",
+                severity: "low",
             },
             {
                 id: 3,
                 name: "Signature Malleability",
-                description: "Exploiting the malleability of digital signatures to alter the signer’s intent without their consent, potentially leading to asset theft.",
-                severity: "low"
+                description:
+                    "Exploiting the malleability of digital signatures to alter the signer’s intent without their consent, potentially leading to asset theft.",
+                severity: "low",
             },
             {
                 id: 4,
                 name: "Orphaned Accounts and Dust",
-                description: "Smart contracts leaving behind data or 'dust' in accounts that no longer have a purpose, wasting resources and potentially leading to vulnerabilities.",
-                severity: "high"
+                description:
+                    "Smart contracts leaving behind data or 'dust' in accounts that no longer have a purpose, wasting resources and potentially leading to vulnerabilities.",
+                severity: "high",
             },
             {
                 id: 5,
                 name: "Program Logic Errors",
-                description: "Flaws in the contract logic that could lead to unintended consequences, such as locked funds or unauthorized actions.",
-                severity: "high"
+                description:
+                    "Flaws in the contract logic that could lead to unintended consequences, such as locked funds or unauthorized actions.",
+                severity: "high",
             },
             // Add more Solana-specific vulnerabilities as needed
         ],
@@ -134,9 +134,6 @@ export default function Home() {
         },
     ];
 
-
-
-
     const [vulnerabilities, setVulnerabilities] =
         React.useState<Vulnerabilities>({
             percentage: 0,
@@ -151,38 +148,31 @@ export default function Home() {
         []
     );
 
-    const featuresRef = useRef(null);
-    const pricingRef = useRef(null);
-    const contactRef = useRef(null);
-    const topRef = useRef(null);
-    const aboutRef = useRef(null);
+    const featuresRef = useRef<HTMLElement | null>(null);
+    const pricingRef = useRef<HTMLElement | null>(null);
+    const contactRef = useRef<HTMLDivElement | null>(null);
+    const topRef = useRef<HTMLElement | null>(null);
+    const aboutRef = useRef<HTMLElement | null>(null);
 
     const scrollToFeatures = () => {
-
-        featuresRef?.current?.scrollIntoView({ behavior: 'smooth' });
-
-    }
+        featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const scrollToPricing = () => {
-
-        pricingRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-    }
+        pricingRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const scrollToContact = () => {
-        contactRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-
-    }
+        contactRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const scrollToTop = () => {
-        topRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-    }
+        topRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const scrollToAbout = () => {
-        aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
+        aboutRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const contactForm = useForm<z.infer<typeof contactSchema>>({
         resolver: zodResolver(contactSchema),
@@ -192,22 +182,18 @@ export default function Home() {
             contactEmail: "",
             message: "",
         },
-    })
+    });
 
     const onContactSubmit = async (details: z.infer<typeof contactSchema>) => {
         console.log("Submitting");
 
         try {
-
             const response = await fetch("/api/contact", {
                 headers: {
-                    'Content-Type': 'application/json',
-
-
+                    "Content-Type": "application/json",
                 },
-                method: 'POST',
+                method: "POST",
                 body: JSON.stringify(details),
-
             });
 
             if (!response.ok) {
@@ -215,11 +201,9 @@ export default function Home() {
                 console.log("Error data: ", data);
                 toast({
                     title: "Contact failed.",
-                    description: "Please try again."
-
-                })
+                    description: "Please try again.",
+                });
                 return;
-
             }
 
             const data = await response.json();
@@ -227,25 +211,16 @@ export default function Home() {
 
             toast({
                 title: "Contact successful.",
-                description: "We will get back to you in 24-48 hours"
-
-            })
-
-
-
-
-
+                description: "We will get back to you in 24-48 hours",
+            });
         } catch (err: any) {
-
             console.log("Server err: ", err);
             toast({
                 title: "Contact failed.",
-                description: "Please try again in 5 minutes."
-
-            })
-
+                description: "Please try again in 5 minutes.",
+            });
         }
-    }
+    };
 
     const onSubmit = async () => {
         const response = await fetch("/api/analyze-code", {
@@ -270,32 +245,37 @@ export default function Home() {
         // console.log("data:", data);
     };
 
-
     const features = [
         {
             title: "Infinite scalability, zero config",
-            description: "Enable code to run on-demand without needing to manage your own infrastructure or upgrade hardware."
+            description:
+                "Enable code to run on-demand without needing to manage your own infrastructure or upgrade hardware.",
         },
         {
             title: "Real-time insights and controls",
-            description: "Get granular, first-party, real-user metrics on site performance per deployment."
+            description:
+                "Get granular, first-party, real-user metrics on site performance per deployment.",
         },
         {
             title: "Personalization at the edge",
-            description: "Deliver dynamic, personalized content, while ensuring users only see the best version of your site."
+            description:
+                "Deliver dynamic, personalized content, while ensuring users only see the best version of your site.",
         },
         {
             title: "Real-time insights and controls",
-            description: "Get granular, first-party, real-user metrics on site performance per deployment."
+            description:
+                "Get granular, first-party, real-user metrics on site performance per deployment.",
         },
         {
             title: "Personalization at the edge",
-            description: "Deliver dynamic, personalized content, while ensuring users only see the best version of your site."
+            description:
+                "Deliver dynamic, personalized content, while ensuring users only see the best version of your site.",
         },
         {
             title: "Infinite scalability, zero config",
-            description: "Enable code to run on-demand without needing to manage your own infrastructure or upgrade hardware."
-        }
+            description:
+                "Enable code to run on-demand without needing to manage your own infrastructure or upgrade hardware.",
+        },
     ];
 
     const teamMembers = [
@@ -304,41 +284,45 @@ export default function Home() {
             name: "Botir Khaltaev",
             role: "Co-Founder & CTO",
             imageSrc: "/botir.jpeg",
-            description: "Passionate about creating innovative solutions to complex problems.",
+            description:
+                "Passionate about creating innovative solutions to complex problems.",
         },
         {
             id: 2,
             name: "Mohammed Yasin",
             role: "Co-Founder & ML Lead",
             imageSrc: "/mohammed.jpg",
-            description: "Turning innovative ideas into scalable and secure technology.",
+            description:
+                "Turning innovative ideas into scalable and secure technology.",
         },
         {
             id: 3,
             name: "Younes Oudrhiri",
             role: "Co-Founder & Head of AI",
             imageSrc: "/younes.jpeg",
-            description: "Turning innovative ideas into scalable and secure technology.",
+            description:
+                "Turning innovative ideas into scalable and secure technology.",
         },
         {
             id: 4,
             name: "Yasir Makanoui",
             role: "Founder & CEO",
             imageSrc: "/yasir.jpeg",
-            description: "Crafting beautiful experiences that merge form and function.",
+            description:
+                "Crafting beautiful experiences that merge form and function.",
         },
         {
             id: 5,
             name: "Tayib Sheikh",
             role: "Co-Founder & Head of Engineering",
             imageSrc: "/tayib.png",
-            description: "Transforming code into seamless and scalable solutions.",
+            description:
+                "Transforming code into seamless and scalable solutions.",
         },
         // Add more team members as needed
     ];
 
-
-    const getSeverityClass = (severity) => {
+    const getSeverityClass = (severity: string) => {
         switch (severity) {
             case "high":
                 return "bg-red-500";
@@ -349,19 +333,19 @@ export default function Home() {
         }
     };
 
-
-
-
-
     return (
         <div className="flex flex-col min-h-[100dvh] min-w-[100vw]">
-            <header className="px-4 lg:px-6 h-14 flex items-center" ref={topRef}>
+            <header
+                className="px-4 lg:px-6 h-14 flex items-center"
+                ref={topRef}
+            >
                 <Link className="flex items-center justify-center" href="#">
                     <ShieldIcon className="h-6 w-6" />
                     <span className="sr-only">Guardian AI</span>
                 </Link>
                 <nav className="ml-auto flex gap-4 sm:gap-6">
-                    <Button variant={"link"}
+                    <Button
+                        variant={"link"}
                         className="text-sm text-green-500 font-medium hover:underline underline-offset-4"
                         onClick={scrollToFeatures}
                     >
@@ -413,7 +397,6 @@ export default function Home() {
                                     >
                                         Get Started
                                     </Link>
-
                                 </div>
                             </div>
                         </div>
@@ -426,7 +409,10 @@ export default function Home() {
                         />
                     </div>
                 </section>
-                <section className="w-full py-12 md:py-24 lg:py-32" ref={featuresRef}>
+                <section
+                    className="w-full py-12 md:py-24 lg:py-32"
+                    ref={featuresRef}
+                >
                     <div className="container space-y-12 px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">
@@ -459,10 +445,9 @@ export default function Home() {
                             ))}
                         </div>
 
-
-
                         <div className="flex justify-center flex-col sm:flex-row items-start gap-4">
-                            <Button variant={"link"}
+                            <Button
+                                variant={"link"}
                                 className="inline-flex text-white h-10 items-center justify-center rounded-md bg-green-800 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                                 onClick={scrollToContact}
                             >
@@ -493,7 +478,11 @@ export default function Home() {
                         </div>
 
                         <div className="p-4">
-                            <Button type="submit" onClick={onSubmit} className="text-white bg-green-800">
+                            <Button
+                                type="submit"
+                                onClick={onSubmit}
+                                className="text-white bg-green-800"
+                            >
                                 Scan Now
                             </Button>
                         </div>
@@ -504,15 +493,23 @@ export default function Home() {
                                     Code Vulnerability Analysis
                                 </CardTitle>
                                 <CardDescription className="mt-2 md:mt-0">
-                                    Your code is  {vulnerabilities.percentage}% vulnerable
+                                    Your code is {vulnerabilities.percentage}%
+                                    vulnerable
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-8">
                                 {vulnerabilities.attacks.map((item, index) => (
-                                    <div key={index} className="flex items-center justify-between gap-4">
-                                        <div className="text-sm">{item.name}</div>
+                                    <div
+                                        key={index}
+                                        className="flex items-center justify-between gap-4"
+                                    >
+                                        <div className="text-sm">
+                                            {item.name}
+                                        </div>
                                         <div
-                                            className={`w-20 h-3 rounded-full ${getSeverityClass(item.severity)}`}
+                                            className={`w-20 h-3 rounded-full ${getSeverityClass(
+                                                item.severity
+                                            )}`}
                                         />
                                     </div>
                                 ))}
@@ -550,7 +547,13 @@ export default function Home() {
                                     id="password"
                                 />
 
-                                <Button formAction={signup} disabled={pending} className="text-white bg-green-800">Sign Up</Button>
+                                <Button
+                                    formAction={signup}
+                                    disabled={pending}
+                                    className="text-white bg-green-800"
+                                >
+                                    Sign Up
+                                </Button>
                             </form>
                             <p className="text-xs text-gray-500 dark:text-gray-400">
                                 Sign up to get notified when we launch.
@@ -565,7 +568,10 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="w-full py-12 md:py-24 lg:py-32" ref={pricingRef}>
+                <section
+                    className="w-full py-12 md:py-24 lg:py-32"
+                    ref={pricingRef}
+                >
                     <div className="container space-y-12 px-4 md:px-6">
                         <div className="flex flex-col items-center justify-center space-y-4 text-center">
                             <div className="space-y-2">
@@ -584,7 +590,10 @@ export default function Home() {
 
                         <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
                             {plans.map((plan) => (
-                                <div key={plan.id} className="flex flex-col justify-center space-y-4">
+                                <div
+                                    key={plan.id}
+                                    className="flex flex-col justify-center space-y-4"
+                                >
                                     <div className="grid gap-3">
                                         <h3 className="text-xl font-bold text-green-800">
                                             {plan.name}
@@ -595,33 +604,46 @@ export default function Home() {
                                         <div className="text-2xl font-bold">
                                             ${plan.price}
                                         </div>
-                                        <button className="bg-green-800 text-white px-4 py-2 rounded-lg">Choose Plan</button>
+                                        <button className="bg-green-800 text-white px-4 py-2 rounded-lg">
+                                            Choose Plan
+                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
-
                     </div>
-
                 </section>
 
-                <section className="w-full py-12 md:py-24 lg:py-32" ref={aboutRef}>
+                <section
+                    className="w-full py-12 md:py-24 lg:py-32"
+                    ref={aboutRef}
+                >
                     <div className="container px-4">
                         <div className="grid gap-8 lg:gap-12 items-center space-y-8 lg:space-y-0 lg:grid-cols-1">
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <h2 className="text-3xl font-bold tracking-tight text-green-800">We are on a mission to make your life easier.</h2>
+                                    <h2 className="text-3xl font-bold tracking-tight text-green-800">
+                                        We are on a mission to make your life
+                                        easier.
+                                    </h2>
                                     <p className="text-gray-500 dark:text-gray-400">
-                                        Our team is dedicated to creating the next generation of tools that will streamline your workflow and
-                                        boost your productivity. We believe that by harnessing the power of technology, we can simplify the
-                                        complex and empower the individual.
+                                        Our team is dedicated to creating the
+                                        next generation of tools that will
+                                        streamline your workflow and boost your
+                                        productivity. We believe that by
+                                        harnessing the power of technology, we
+                                        can simplify the complex and empower the
+                                        individual.
                                     </p>
                                 </div>
                             </div>
 
                             <div className="grid gap-6 lg:gap-10 md:grid-cols-2 items-start">
                                 {teamMembers.map((member) => (
-                                    <div key={member.id} className="flex flex-col gap-4">
+                                    <div
+                                        key={member.id}
+                                        className="flex flex-col gap-4"
+                                    >
                                         <Image
                                             alt={member.name}
                                             className="rounded-full object-cover"
@@ -634,8 +656,12 @@ export default function Home() {
                                             width="160"
                                         />
                                         <div className="grid gap-2">
-                                            <h3 className="font-semibold text-green-700 text-sm">{member.name}</h3>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{member.role}</p>
+                                            <h3 className="font-semibold text-green-700 text-sm">
+                                                {member.name}
+                                            </h3>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                {member.role}
+                                            </p>
                                         </div>
                                         <p className="text-sm text-gray-500 dark:text-gray-400">
                                             {member.description}
@@ -643,7 +669,6 @@ export default function Home() {
                                     </div>
                                 ))}
                             </div>
-
                         </div>
                     </div>
                 </section>
@@ -661,7 +686,8 @@ export default function Home() {
                             </p>
                         </div>
                         <div className="flex space-x-4 lg:justify-end">
-                            <Button variant={"link"}
+                            <Button
+                                variant={"link"}
                                 className="inline-flex text-white h-10 items-center justify-center rounded-md bg-green-800 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                                 onClick={scrollToContact}
                             >
@@ -677,27 +703,37 @@ export default function Home() {
                     </div>
                 </section>
 
-
                 <Card className="rounded-none border-0" ref={contactRef}>
                     <CardHeader>
-                        <CardTitle className="text-green-800">Contact Us</CardTitle>
-                        <CardDescription>Get in touch with our team</CardDescription>
+                        <CardTitle className="text-green-800">
+                            Contact Us
+                        </CardTitle>
+                        <CardDescription>
+                            Get in touch with our team
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Form {...contactForm}>
-
-                            <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-8">
-
+                            <form
+                                onSubmit={contactForm.handleSubmit(
+                                    onContactSubmit
+                                )}
+                                className="space-y-8"
+                            >
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-
                                     <FormField
                                         control={contactForm.control}
                                         name="firstName"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>First Name</FormLabel>
+                                                <FormLabel>
+                                                    First Name
+                                                </FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="John" {...field} />
+                                                    <Input
+                                                        placeholder="John"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -712,14 +748,16 @@ export default function Home() {
                                             <FormItem>
                                                 <FormLabel>Last Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Smith" {...field} />
+                                                    <Input
+                                                        placeholder="Smith"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
 
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
-
 
                                     <FormField
                                         control={contactForm.control}
@@ -728,8 +766,10 @@ export default function Home() {
                                             <FormItem>
                                                 <FormLabel>Email</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="example@example.com" {...field} />
-
+                                                    <Input
+                                                        placeholder="example@example.com"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -744,32 +784,31 @@ export default function Home() {
                                             <FormItem>
                                                 <FormLabel>Message</FormLabel>
                                                 <FormControl>
-                                                    <Textarea placeholder="example@example.com" {...field} className="min-h-[100px]" />
-
+                                                    <Textarea
+                                                        placeholder="example@example.com"
+                                                        {...field}
+                                                        className="min-h-[100px]"
+                                                    />
                                                 </FormControl>
 
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
-
                                 </div>
 
                                 <div className="flex items-start">
-                                    <Button className="ml-auto bg-green-800 text-white" type="submit">
+                                    <Button
+                                        className="ml-auto bg-green-800 text-white"
+                                        type="submit"
+                                    >
                                         Contact us!
                                     </Button>
                                 </div>
-
-
                             </form>
                         </Form>
-
-
                     </CardContent>
                 </Card>
-
-
 
                 <section className="w-full py-0 border-t" />
 
@@ -777,23 +816,39 @@ export default function Home() {
                     <div className="container px-4 flex items-center justify-between">
                         <p>© 2024 SmartGuardian. All rights reserved.</p>
                         <nav className="flex space-x-4">
-                            <Button variant={"link"} className="text-white hover:underline" onClick={scrollToTop}>
+                            <Button
+                                variant={"link"}
+                                className="text-white hover:underline"
+                                onClick={scrollToTop}
+                            >
                                 Home
                             </Button>
-                            <Button className="text-white hover:underline" onClick={scrollToAbout} variant={"link"}>
+                            <Button
+                                className="text-white hover:underline"
+                                onClick={scrollToAbout}
+                                variant={"link"}
+                            >
                                 About
                             </Button>
-                            <Button variant={"link"} className="text-white hover:underline" onClick={scrollToFeatures}>
+                            <Button
+                                variant={"link"}
+                                className="text-white hover:underline"
+                                onClick={scrollToFeatures}
+                            >
                                 Features
                             </Button>
-                            <Button className="text-white hover:underline" variant={"link"} onClick={scrollToContact}>
+                            <Button
+                                className="text-white hover:underline"
+                                variant={"link"}
+                                onClick={scrollToContact}
+                            >
                                 Contact
                             </Button>
                         </nav>
                     </div>
                 </footer>
             </main>
-        </div >
+        </div>
     );
 }
 
