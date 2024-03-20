@@ -194,6 +194,7 @@ export default function Home() {
         console.log("Submitting");
 
         try {
+            setContactLoading(true);
             const response = await fetch("/api/contact", {
                 headers: {
                     "Content-Type": "application/json",
@@ -214,6 +215,7 @@ export default function Home() {
 
             const data = await response.json();
             console.log("Success: ", data);
+            setContactLoading(false);
 
             toast({
                 title: "Contact successful.",
@@ -832,6 +834,7 @@ export default function Home() {
                                             className="ml-auto bg-green-800 text-white"
                                             disabled
                                         >
+                                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                                             Contacting...
                                         </Button>
                                     ) : (
