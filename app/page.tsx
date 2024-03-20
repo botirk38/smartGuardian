@@ -231,6 +231,11 @@ export default function Home() {
     };
 
     const onSubmit = async () => {
+        const newArray: Vulnerabilities = {
+            percentage: 0, // replace with actual value
+            attacks: [], // replace with actual value
+        };
+        setVulnerabilities(newArray);
         setLoading(true);
         const response = await fetch("/api/analyze-code", {
             method: "POST",
@@ -249,9 +254,10 @@ export default function Home() {
 
         //const data: Vulnerabilities = await response.json();
         // setVulnerabilities(data);
-        setVulnerabilities(initialSolanaVulnerabilities);
         setTimeout(() => {
             setLoading(false);
+            setVulnerabilities(initialSolanaVulnerabilities);
+
         }, 2000);
 
         // console.log("data:", data);
