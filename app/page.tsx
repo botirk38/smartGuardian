@@ -364,28 +364,29 @@ export default function Home() {
                 <nav className="ml-auto flex gap-4 sm:gap-6">
                     <Button
                         variant={"link"}
-                        className="text-sm text-green-500 font-medium hover:underline underline-offset-4"
+                        className="text-sm text-green-700 font-medium hover:underline underline-offset-4"
                         onClick={scrollToFeatures}
                     >
                         Features
                     </Button>
                     <Button
                         variant={"link"}
-                        className="text-sm text-green-500 font-medium hover:underline underline-offset-4"
+                        className="text-sm text-green-700 font-medium hover:underline underline-offset-4"
+
                         onClick={scrollToPricing}
                     >
                         Pricing
                     </Button>
                     <Button
                         variant={"link"}
-                        className="text-sm text-green-500 font-medium hover:underline underline-offset-4"
+                        className="text-sm text-green-700 font-medium hover:underline underline-offset-4"
                         onClick={scrollToAbout}
                     >
                         About
                     </Button>
                     <Button
                         variant={"link"}
-                        className="text-sm  text-green-500 font-medium hover:underline underline-offset-4"
+                        className="text-sm  text-green-700 font-medium hover:underline underline-offset-4"
                         onClick={scrollToContact}
                     >
                         Contact
