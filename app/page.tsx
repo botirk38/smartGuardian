@@ -697,51 +697,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section
-                    className="w-full py-12 md:py-24 lg:py-32"
-                    ref={pricingRef}
-                >
-                    <div className="container space-y-12 px-4 md:px-6">
-                        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                            <div className="space-y-2">
-                                <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
-                                    Pricing
-                                </div>
-                                <h2 className="text-3xl text-green-800 font-bold tracking-tighter sm:text-5xl">
-                                    Choose the Plan That Works for You
-                                </h2>
-                                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                                    {`Select the perfect plan for your team. Whether you're a small startup or a large enterprise, we have a
-  pricing option that fits your needs.`}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-                            {plans.map((plan) => (
-                                <div
-                                    key={plan.id}
-                                    className="flex flex-col justify-center space-y-4"
-                                >
-                                    <div className="grid gap-3">
-                                        <h3 className="text-xl font-bold text-green-800">
-                                            {plan.name}
-                                        </h3>
-                                        <p className="text-gray-500 dark:text-gray-400">
-                                            {plan.description}
-                                        </p>
-                                        <div className="text-2xl font-bold">
-                                            ${plan.price}
-                                        </div>
-                                        <button className="bg-green-800 text-white px-4 py-2 rounded-lg">
-                                            Choose Plan
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
 
                 <section
                     className="w-full py-12 md:py-24 lg:py-32"
