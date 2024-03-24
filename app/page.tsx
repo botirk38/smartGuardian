@@ -27,7 +27,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import Image from "next/image";
-import { JSX, SVGProps, useRef } from "react";
+import { JSX, SVGProps, useRef, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { rust } from "@codemirror/lang-rust";
 import React from "react";
@@ -74,7 +74,7 @@ export default function Home() {
 
     const { pending } = useFormStatus();
 
-    const initialSolanaVulnerabilities: Vulnerabilities = {
+    const mediumSolanaVulnerabilities: Vulnerabilities = {
         percentage: 60, // Example percentage of contracts potentially vulnerable
         attacks: [
             {
@@ -115,6 +115,81 @@ export default function Home() {
             // Add more Solana-specific vulnerabilities as needed
         ],
     };
+
+    const badCodeVulnerabilities: Vulnerabilities = {
+        percentage: 75,
+        attacks: [
+            {
+                id: 1,
+                name: "Unchecked External Calls",
+                description: "Failing to check the results of external calls can lead to unintended behaviors or failures in smart contracts.",
+                severity: "high",
+            },
+            {
+                id: 2,
+                name: "Timestamp Dependence",
+                description: "Using block timestamps for critical contract logic can be manipulated by miners to some extent, affecting contract outcomes.",
+                severity: "medium",
+            },
+            {
+                id: 3,
+                name: "Front Running",
+                description: "Malicious entities could observe transactions and execute another transaction beforehand, potentially profiting at the expense of the original transaction.",
+                severity: "high",
+            },
+            {
+                id: 4,
+                name: "Gas Limit and Loops",
+                description: "Unbounded loops can consume a high amount of gas, potentially causing transactions to fail if the gas limit is reached.",
+                severity: "medium",
+            },
+            {
+                id: 5,
+                name: "Hardcoded Secrets",
+                description: "Including sensitive information like private keys or secrets within contract code can lead to security breaches.",
+                severity: "high",
+            },
+        ],
+    };
+
+    const goodCodePractices: Vulnerabilities = {
+        percentage: 25, // Lower percentage implies better code practices reduce vulnerabilities
+        attacks: [
+            {
+                id: 1,
+                name: "Use of Safe Math Libraries",
+                description: "Prevents integer overflow and underflow by using libraries designed to handle arithmetic operations safely.",
+                severity: "low",
+            },
+            {
+                id: 2,
+                name: "Time Manipulation Awareness",
+                description: "Avoid reliance on block times for critical contract functionalities to mitigate risks associated with miner manipulation.",
+                severity: "low",
+            },
+            {
+                id: 3,
+                name: "Transaction Ordering Dependence",
+                description: "Designing contracts to be aware of and mitigate potential front-running by making critical operations less predictable or dependent on transaction order.",
+                severity: "medium",
+            },
+            {
+                id: 4,
+                name: "Fixed Gas Limits",
+                description: "Ensuring that operations requiring gas are well-tested to prevent out-of-gas errors, particularly for operations that involve loops.",
+                severity: "low",
+            },
+            {
+                id: 5,
+                name: "Environment Variable for Secrets",
+                description: "Storing sensitive information outside of the smart contract and accessing it through environment variables or secure off-chain methods.",
+                severity: "low",
+            },
+        ],
+    };
+
+
+    const [count, setCount] = useState(0);
 
     const plans: Plan[] = [
         {
@@ -256,7 +331,21 @@ export default function Home() {
         // setVulnerabilities(data);
         setTimeout(() => {
             setLoading(false);
-            setVulnerabilities(initialSolanaVulnerabilities);
+
+            if (count == 0) {
+                setVulnerabilities(badCodeVulnerabilities);
+            }
+
+            else if (count == 1) {
+
+                setVulnerabilities(goodCodePractices);
+            }
+
+            else {
+                setVulnerabilities(mediumSolanaVulnerabilities);
+            }
+
+            setCount(count + 1);
 
         }, 2000);
 
@@ -346,6 +435,8 @@ export default function Home() {
                 return "bg-red-500";
             case "low":
                 return "bg-green-500";
+            case "medium":
+                return "bg-yellow-500";
             default:
                 return "bg-gray-500";
         }
@@ -421,10 +512,10 @@ export default function Home() {
                         </div>
                         <Image
                             alt="Hero"
-                            className="mx-auto overflow-hidden rounded-t-xl object-cover"
+                            className="mx-auto aspect-auto overflow-hidden rounded-t-xl object-cover"
                             height="500"
                             src="/home/hero.png"
-                            width="1270"
+                            width="900"
                         />
                     </div>
                 </section>
@@ -541,7 +632,7 @@ export default function Home() {
                                         <div
                                             className={`w-20 h-3 rounded-full ${getSeverityClass(
                                                 item.severity
-                                            )}`}
+                                            )}` }
                                         />
                                     </div>
                                 ))}
