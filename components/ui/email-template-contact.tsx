@@ -1,15 +1,13 @@
 interface EmailContactTemplateProps {
 
   message: string;
-  firstName: string;
-  lastName: string;
+
 
 }
 
-export const EmailContactTemplate: React.FC<EmailContactTemplateProps> = ({ message, firstName, lastName }) => {
+export const EmailContactTemplate: React.FC<EmailContactTemplateProps> = ({ message}) => {
   return (
-    <section>
-      Hi my name is {firstName + " " + lastName}
+    <section> 
       {message}
     </section>
   );

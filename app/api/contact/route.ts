@@ -16,8 +16,6 @@ export async function POST(request: Request) {
         ],
         subject: `Contact email from ${contactInfoResponse.contactEmail} for SmartGuardian`,
         react: EmailContactTemplate({
-            firstName: contactInfoResponse.firstName,
-            lastName: contactInfoResponse.lastName,
             message: contactInfoResponse.message,
         }) as React.ReactElement,
     });
