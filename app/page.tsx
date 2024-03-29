@@ -122,31 +122,36 @@ export default function Home() {
             {
                 id: 1,
                 name: "Unchecked External Calls",
-                description: "Failing to check the results of external calls can lead to unintended behaviors or failures in smart contracts.",
+                description:
+                    "Failing to check the results of external calls can lead to unintended behaviors or failures in smart contracts.",
                 severity: "high",
             },
             {
                 id: 2,
                 name: "Timestamp Dependence",
-                description: "Using block timestamps for critical contract logic can be manipulated by miners to some extent, affecting contract outcomes.",
+                description:
+                    "Using block timestamps for critical contract logic can be manipulated by miners to some extent, affecting contract outcomes.",
                 severity: "medium",
             },
             {
                 id: 3,
                 name: "Front Running",
-                description: "Malicious entities could observe transactions and execute another transaction beforehand, potentially profiting at the expense of the original transaction.",
+                description:
+                    "Malicious entities could observe transactions and execute another transaction beforehand, potentially profiting at the expense of the original transaction.",
                 severity: "high",
             },
             {
                 id: 4,
                 name: "Gas Limit and Loops",
-                description: "Unbounded loops can consume a high amount of gas, potentially causing transactions to fail if the gas limit is reached.",
+                description:
+                    "Unbounded loops can consume a high amount of gas, potentially causing transactions to fail if the gas limit is reached.",
                 severity: "medium",
             },
             {
                 id: 5,
                 name: "Hardcoded Secrets",
-                description: "Including sensitive information like private keys or secrets within contract code can lead to security breaches.",
+                description:
+                    "Including sensitive information like private keys or secrets within contract code can lead to security breaches.",
                 severity: "high",
             },
         ],
@@ -158,36 +163,40 @@ export default function Home() {
             {
                 id: 1,
                 name: "Use of Safe Math Libraries",
-                description: "Prevents integer overflow and underflow by using libraries designed to handle arithmetic operations safely.",
+                description:
+                    "Prevents integer overflow and underflow by using libraries designed to handle arithmetic operations safely.",
                 severity: "low",
             },
             {
                 id: 2,
                 name: "Time Manipulation Awareness",
-                description: "Avoid reliance on block times for critical contract functionalities to mitigate risks associated with miner manipulation.",
+                description:
+                    "Avoid reliance on block times for critical contract functionalities to mitigate risks associated with miner manipulation.",
                 severity: "low",
             },
             {
                 id: 3,
                 name: "Transaction Ordering Dependence",
-                description: "Designing contracts to be aware of and mitigate potential front-running by making critical operations less predictable or dependent on transaction order.",
+                description:
+                    "Designing contracts to be aware of and mitigate potential front-running by making critical operations less predictable or dependent on transaction order.",
                 severity: "medium",
             },
             {
                 id: 4,
                 name: "Fixed Gas Limits",
-                description: "Ensuring that operations requiring gas are well-tested to prevent out-of-gas errors, particularly for operations that involve loops.",
+                description:
+                    "Ensuring that operations requiring gas are well-tested to prevent out-of-gas errors, particularly for operations that involve loops.",
                 severity: "low",
             },
             {
                 id: 5,
                 name: "Environment Variable for Secrets",
-                description: "Storing sensitive information outside of the smart contract and accessing it through environment variables or secure off-chain methods.",
+                description:
+                    "Storing sensitive information outside of the smart contract and accessing it through environment variables or secure off-chain methods.",
                 severity: "low",
             },
         ],
     };
-
 
     const [count, setCount] = useState(0);
 
@@ -334,19 +343,13 @@ export default function Home() {
 
             if (count == 0) {
                 setVulnerabilities(badCodeVulnerabilities);
-            }
-
-            else if (count == 1) {
-
+            } else if (count == 1) {
                 setVulnerabilities(goodCodePractices);
-            }
-
-            else {
+            } else {
                 setVulnerabilities(mediumSolanaVulnerabilities);
             }
 
             setCount(count + 1);
-
         }, 2000);
 
         // console.log("data:", data);
@@ -449,7 +452,13 @@ export default function Home() {
                 ref={topRef}
             >
                 <Link className="flex items-center justify-center" href="#">
-                    <Image src="/logo.svg" width={40} height={40} alt="Guardian AI" />
+                    <Image
+                        src="/logo.png"
+                        width={200}
+                        height={200}
+                        alt="Guardian AI"
+                        className="bg-white"
+                    />
                     <span className="sr-only">Guardian AI</span>
                 </Link>
                 <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -460,14 +469,7 @@ export default function Home() {
                     >
                         Features
                     </Button>
-                    <Button
-                        variant={"link"}
-                        className="text-sm text-green-700 font-medium hover:underline underline-offset-4"
 
-                        onClick={scrollToPricing}
-                    >
-                        Pricing
-                    </Button>
                     <Button
                         variant={"link"}
                         className="text-sm text-green-700 font-medium hover:underline underline-offset-4"
@@ -632,7 +634,7 @@ export default function Home() {
                                         <div
                                             className={`w-20 h-3 rounded-full ${getSeverityClass(
                                                 item.severity
-                                            )}` }
+                                            )}`}
                                         />
                                     </div>
                                 ))}
@@ -696,7 +698,6 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
 
                 <section
                     className="w-full py-12 md:py-24 lg:py-32"
