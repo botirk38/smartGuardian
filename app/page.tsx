@@ -449,7 +449,7 @@ export default function Home() {
                 ref={topRef}
             >
                 <Link className="flex items-center justify-center" href="#">
-                    <ShieldIcon className="h-6 w-6" />
+                    <Image src="/logo.svg" width={40} height={40} alt="Guardian AI" />
                     <span className="sr-only">Guardian AI</span>
                 </Link>
                 <nav className="ml-auto flex gap-4 sm:gap-6">

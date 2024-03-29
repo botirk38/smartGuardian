@@ -12,6 +12,7 @@ export async function POST(request: Request) {
             "btrghstk@gmail.com",
             "yassinekj07@gmail.com",
             "oudrhiriyouneslfim@gmail.com",
+            "Maknaoui@outlook.it"
         ],
         subject: `Contact email from ${contactInfoResponse.contactEmail} for SmartGuardian`,
         react: EmailContactTemplate({
